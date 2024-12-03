@@ -26,9 +26,20 @@ const openImageModal = (image) => {
     });
 }
 
+// функция предзаполнения формы редактирования профиля
+const fillEditForm = () => {
+    const form = document.forms['edit-profile'];
+    const nameInput = form.elements['name'];
+    const descriptionInput = form.elements['description'];
+
+    nameInput.value = profileTitle.textContent || '';
+    descriptionInput.value = profileDescription.textContent || '';
+}
+
 // слушатели
 profileEditButton.addEventListener('click', () => {
     openModal(profilePopup);
+    fillEditForm();
 });
 profileAddButton.addEventListener('click', () => {
     openModal(cardPopup);

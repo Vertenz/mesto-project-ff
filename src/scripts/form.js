@@ -2,15 +2,6 @@ import { closeModal } from './modal.js';
 import { renderCard } from './cardList.js';
 import { profileTitle, profileDescription } from './index.js';
 
-const fillEditForm = (userData) => {
-    const form = document.forms['edit-profile'];
-    const nameInput = form.elements['name'];
-    const descriptionInput = form.elements['description'];
-
-    nameInput.value = userData.name || '';
-    descriptionInput.value = userData.description || '';
-}
-
 const handleEditFormSubmit = (evt) => {
     evt.preventDefault();
 
@@ -44,7 +35,7 @@ const handleCardAdd = (evt) => {
     };
 
 
-    renderCard(newCard, 'append');
+    renderCard(newCard);
     form.reset();
     closeModal();
 }

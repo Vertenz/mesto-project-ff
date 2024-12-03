@@ -1,6 +1,5 @@
 import { renderCard } from "./cardList.js";
 import initialCards from "./cards.js";
-import { openImageModal } from "./modal.js";
 import { openImageModal } from "./index.js";
 
 // Функция создания карточки
