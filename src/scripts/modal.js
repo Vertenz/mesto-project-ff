@@ -51,13 +51,4 @@ const closeModal = () => {
     setClickListener(false);
 }
 
-const openImageModal = (image) => {
-    imageElement.src = image.src;
-    imageElement.alt = image.alt;
-    popupCaption.textContent = image.alt;
-    window.requestAnimationFrame(() => {
-        openModal(imagePopup);
-    });
-}
-
-export { openModal, openImageModal, closeModal };
+export { openModal, closeModal };

@@ -1,5 +1,5 @@
 import { initialCardList } from './card.js';
-import { openModal, openImageModal } from './modal.js';
+import { openModal } from './modal.js';
 import { handleEditFormSubmit, handleCardAdd } from './form.js';
 
 // дом элементы
@@ -16,6 +16,15 @@ const popupCaption = imagePopup.querySelector('.popup__caption');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
+// функция открытия модального окна с изображением
+const openImageModal = (image) => {
+    imageElement.src = image.src;
+    imageElement.alt = image.alt;
+    popupCaption.textContent = image.alt;
+    window.requestAnimationFrame(() => {
+        openModal(imagePopup);
+    });
+}
 
 // слушатели
 profileEditButton.addEventListener('click', () => {
@@ -31,4 +40,4 @@ document.forms['new-place'].addEventListener('submit', handleCardAdd);
 // выводим карточки на страницу
 initialCardList();
 
-export { placesList, profileTitle, profileDescription, imageElement, popupCaption, imagePopup };
+export { placesList, profileTitle, profileDescription, imageElement, popupCaption, imagePopup, openImageModal };
