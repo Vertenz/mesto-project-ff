@@ -1,3 +1,5 @@
+import { imageElement, popupCaption, imagePopup } from './index.js';
+
 const setClickListener = (addEvent) => {
     if (addEvent === undefined) {
         return;
@@ -50,10 +52,9 @@ const closeModal = () => {
 }
 
 const openImageModal = (image) => {
-    const imagePopup = document.querySelector('.popup_type_image');
-    const imageElement = imagePopup.querySelector('.popup__image');
     imageElement.src = image.src;
     imageElement.alt = image.alt;
+    popupCaption.textContent = image.alt;
     window.requestAnimationFrame(() => {
         openModal(imagePopup);
     });

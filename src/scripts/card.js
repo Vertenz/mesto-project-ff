@@ -1,4 +1,6 @@
-import initialCards from "./cards";
+import { renderCard } from "./cardList.js";
+import initialCards from "./cards.js";
+import { openImageModal } from "./modal.js";
 
 // Функция создания карточки
 const createCard = (cardData, handleDelete, handleLike) => {
@@ -15,46 +17,27 @@ const createCard = (cardData, handleDelete, handleLike) => {
   cardTitle.textContent = cardData.name;
   
   deleteButton.addEventListener('click', () => handleDelete(cardElement));
-  likeButton.addEventListener('click', () => handleLike(cardElement));
+  likeButton.addEventListener('click', () => handleLike(likeButton));
+  cardImage.addEventListener('click', () => openImageModal(cardImage));
   
   return cardElement;
 }
 
 // Функция удаления карточки
-const handleDeleteCard = (cardElement) => {  
+const handleDelete = (cardElement) => {  
   cardElement.remove(); 
 }; 
 
 // Функция лайка карточки
-const handleLikeCard = (cardElement) => {
-  cardElement.querySelector('.card__like-button').classList.toggle('card__like-button_is-active');
+const handleLike = (likeButton) => {
+  likeButton.classList.toggle('card__like-button_is-active');
 };
-
-// добавление ноды
-const addPrependCard = (element) => {
-    if (!element){
-        return
-    }
-
-    const placesList = document.querySelector('.places__list');
-    placesList.prepend(createCard(element, handleDeleteCard, handleLikeCard));
-}
-
-const addAppendCard = (element) => {
-    if (!element){
-        return
-    }
-
-    const placesList = document.querySelector('.places__list');
-    placesList.append(createCard(element, handleDeleteCard, handleLikeCard));
-}
 
 // Вывод карточек на страницу
 const initialCardList = () => {
-  const placesList = document.querySelector('.places__list');
   initialCards.forEach(cardData => {
-    addAppendCard(cardData);
+    renderCard(cardData);
   });
 }
 
-export { initialCardList, addPrependCard };
+export { initialCardList, createCard, handleDelete, handleLike };

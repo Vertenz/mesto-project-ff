@@ -1,6 +1,15 @@
 import { closeModal } from './modal.js';
-import initialCards from './cards.js'
-import { addPrependCard } from './card.js';
+import { renderCard } from './cardList.js';
+import { profileTitle, profileDescription } from './index.js';
+
+const fillEditForm = (userData) => {
+    const form = document.forms['edit-profile'];
+    const nameInput = form.elements['name'];
+    const descriptionInput = form.elements['description'];
+
+    nameInput.value = userData.name || '';
+    descriptionInput.value = userData.description || '';
+}
 
 const handleEditFormSubmit = (evt) => {
     evt.preventDefault();
@@ -11,14 +20,6 @@ const handleEditFormSubmit = (evt) => {
 
     const nameValue = nameInput?.value;
     const descriptionValue = descriptionInput?.value;
-
-    const profileTitle = document.querySelector('.profile__title');
-    const profileDescription = document.querySelector('.profile__description');
-
-    if (!profileTitle || !profileDescription || !nameValue || !descriptionValue) {
-        console.error('Не удалось найти элементы формы или значения полей');
-        return;
-    }
 
     profileTitle.textContent = nameValue;
     profileDescription.textContent = descriptionValue;
@@ -43,7 +44,8 @@ const handleCardAdd = (evt) => {
     };
 
 
-    addPrependCard(newCard);
+    renderCard(newCard, 'append');
+    form.reset();
     closeModal();
 }
 
