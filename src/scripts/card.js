@@ -1,9 +1,11 @@
-import { renderCard } from "./cardList.js";
-import initialCards from "./cards.js";
-import { openImageModal } from "./index.js";
+import { openModal } from "./modal.js";
+
+const imagePopup = document.querySelector('.popup_type_image');
+const imageElement = imagePopup.querySelector('.popup__image');
+const popupCaption = imagePopup.querySelector('.popup__caption');
 
 // Функция создания карточки
-const createCard = (cardData, handleDelete, handleLike) => {
+const createCard = (cardData) => {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement= cardTemplate.querySelector(".card").cloneNode(true);
   
@@ -24,7 +26,7 @@ const createCard = (cardData, handleDelete, handleLike) => {
 }
 
 // Функция удаления карточки
-const handleDelete = (cardElement) => {  
+const handleDelete = (cardElement) => { 
   cardElement.remove(); 
 }; 
 
@@ -33,11 +35,14 @@ const handleLike = (likeButton) => {
   likeButton.classList.toggle('card__like-button_is-active');
 };
 
-// Вывод карточек на страницу
-const initialCardList = () => {
-  initialCards.forEach(cardData => {
-    renderCard(cardData);
+// Функция открытия модального окна с изображением
+const openImageModal = (image) => {
+  imageElement.src = image.src;
+  imageElement.alt = image.alt;
+  popupCaption.textContent = image.alt;
+  window.requestAnimationFrame(() => {
+      openModal(imagePopup);
   });
 }
 
-export { initialCardList, createCard, handleDelete, handleLike };
+export { createCard, handleDelete, handleLike };

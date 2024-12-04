@@ -1,5 +1,3 @@
-import { imageElement, popupCaption, imagePopup } from './index.js';
-
 const setClickListener = (addEvent) => {
     if (addEvent === undefined) {
         return;
