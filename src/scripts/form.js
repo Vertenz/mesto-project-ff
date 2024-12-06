@@ -1,6 +1,9 @@
 import { closeModal } from './modal.js';
 import { renderCard } from './cardList.js';
 
+const editForm = document.forms['edit-profile'];
+const cardForm = document.forms['new-place'];
+
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 const profile = {
@@ -10,9 +13,8 @@ const profile = {
 
 // функция предзаполнения формы редактирования профиля
 const fillEditForm = () => {
-    const form = document.forms['edit-profile'];
-    const nameInput = form.elements['name'];
-    const descriptionInput = form.elements['description'];
+    const nameInput = editForm.elements['name'];
+    const descriptionInput = editForm.elements['description'];
 
     nameInput.value = profile.title.textContent || '';
     descriptionInput.value = profile.description.textContent || '';
@@ -21,9 +23,8 @@ const fillEditForm = () => {
 const handleEditFormSubmit = (evt) => {
     evt.preventDefault();
 
-    const form = evt.target;
-    const nameInput = form.elements['name'];
-    const descriptionInput = form.elements['description'];
+    const nameInput = editForm.elements['name'];
+    const descriptionInput = editForm.elements['description'];
 
     const nameValue = nameInput?.value;
     const descriptionValue = descriptionInput?.value;
@@ -33,12 +34,11 @@ const handleEditFormSubmit = (evt) => {
     closeModal();
 }
 
-const handleCardAdd = (evt) => {
+const handleCardAdd = (evt, { deleteCard, likeCard, handleImageClick }) => {
     evt.preventDefault();
 
-    const form = evt.target;
-    const nameInput = form.elements['place-name'];
-    const linkInput = form.elements['link'];
+    const nameInput = cardForm.elements['place-name'];
+    const linkInput = cardForm.elements['link'];
 
     if (!nameInput?.value || !linkInput?.value) {
         console.error('Не удалось найти элементы формы или значения полей');
@@ -51,10 +51,10 @@ const handleCardAdd = (evt) => {
     };
 
 
-    renderCard(newCard);
-    form.reset();
+    renderCard(newCard, { deleteCard, likeCard, handleImageClick });
+    cardForm.reset();
     closeModal();
 }
 
 
-export { handleEditFormSubmit, handleCardAdd, fillEditForm };
+export { handleEditFormSubmit, handleCardAdd, fillEditForm, editForm, cardForm };
