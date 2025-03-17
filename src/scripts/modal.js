@@ -1,52 +1,24 @@
-const setClickListener = (addEvent) => {
-    if (addEvent === undefined) {
-        return;
-    }
+function openModal (popup) {
+    popup.classList.add('popup_is-opened', 'popup_is-animated');
+    document.addEventListener('keydown', closeWithEscape);
+}
 
-    const closeOnClick = (event) => {
-        if (
-            event.target.classList.contains('popup__close') || 
-            event.target.classList.contains('popup_is-opened') ||
-            event.key === 'Escape'
-        ) {
-            closeModal();
-        } 
-    }
+function closeModal(popup) {
+    popup.classList.remove('popup_is-opened');
+    document.removeEventListener('keydown', closeWithEscape);
+}
 
-    if (addEvent) {
-        window.addEventListener('click', closeOnClick);
-        window.addEventListener('keydown', closeOnClick);
-    } else {
-        window.removeEventListener('click', closeOnClick);
-        window.removeEventListener('keydown', closeOnClick);
+function closeWithEscape(event) {
+    if (event.code === "Escape") {
+        const openPopup = document.querySelector('.popup_is-opened');
+        closeModal(openPopup);
     }
 }
 
-const openModal = (element) => {
-    if (!element) {
-        return;
+function closeWithOverlay(event) {
+    if(event.target === event.currentTarget) {
+      closeModal(event.target);
     }
-
-    element.classList.add('popup_is-animated');
-    window.requestAnimationFrame(() => {
-        element.classList.add('popup_is-opened');  
-        element.classList.remove('popup_is-closed');
-    });
-    setClickListener(true);
 }
 
-const closeModal = () => {
-    const element = document.querySelector('.popup_is-opened');
-    if (!element) {
-        return;
-    }
-
-    element.classList.remove('popup_is-opened');
-    // transition: visibility 0s 0.6s, opacity 0.6s;
-    setTimeout(() => {
-        element.classList.remove('popup_is-animated');
-    }, 600);
-    setClickListener(false);
-}
-
-export { openModal, closeModal };
+export { openModal, closeModal, closeWithOverlay }
