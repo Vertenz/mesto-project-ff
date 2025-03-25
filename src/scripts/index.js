@@ -51,7 +51,7 @@ const placeNameInput = formAddCard.elements.place_name;
 const linkInput = formAddCard.elements.link;
 
 const deleteCardCallback = (event, cardID) => {
-    openModal(document.querySelector('.popup_type_confirm-deletion'));
+    openModal(modalConfirmDeletion);
     cardIDForDeletion = cardID;
     eventForDeletion = event;
 }
@@ -60,8 +60,7 @@ const likeToggleCallback = (buttonLikeClicked, cardID, cardLikesNumber) => {
     const toggleLikeMethod = buttonLikeClicked.classList.contains('card__like-button_is-active') ? deleteLike : putLike;
     toggleLikeMethod(cardID).
         then((res) => {
-            toggleLikeCard(buttonLikeClicked);
-            cardLikesNumber.textContent = res.likes.length;
+            toggleLikeCard(buttonLikeClicked, cardLikesNumber, res);
         })
         .catch((err) => console.log(`Произошла ошибка: ${err}`));
 }
@@ -73,10 +72,10 @@ function handleEditProfile(event) {
         .then((res) => {
             profileTitle.textContent = res.name;
             profileDescription.textContent = res.about;
+            closeModal(modalEditProfile);
         })
         .catch((err) => console.log(`Произошла ошибка: ${err}`))
         .finally(() => {
-            closeModal(modalEditProfile);
             renderLoading(false, formEditProfile, textSaving, textDefaultSave);
         });
 }
@@ -87,12 +86,12 @@ function handleAddCard(event) {
     postCard({name: placeNameInput.value, link: linkInput.value})
         .then((res) => {
             placesContainer.prepend(createCard(res, deleteCardCallback, likeToggleCallback, openImagePopup, ownerID));
+            closeModal(modalAddCard);
+            formAddCard.reset();
         })
         .catch((err) => console.log(`Произошла ошибка: ${err}`))
         .finally(() => {
-            closeModal(modalAddCard);
             renderLoading(false, formAddCard, textSaving, textDefaultSave);
-            formAddCard.reset();
         });
 }
 
@@ -102,12 +101,12 @@ function handleEditAvatar(event) {
     patchAvatar({avatar: avatarInput.value})
         .then((res) => {
             profileImage.style.backgroundImage = `url("${res.avatar}")`;
+            closeModal(modalEditAvatar);
+            formEditAvatar.reset();
         })
         .catch((err) => console.log(`Произошла ошибка: ${err}`))
         .finally(() => {
-            closeModal(modalEditAvatar);
             renderLoading(false, formEditAvatar, textSaving, textDefaultSave);
-            formEditAvatar.reset();
         });
 }
 
@@ -117,17 +116,17 @@ function handleConfirmDeletion(event) {
     deleteFromServerCard(cardIDForDeletion)
         .then((res) => {
             deleteCard(eventForDeletion);
-            console.log(res);
+            closeModal(modalConfirmDeletion);
         })
         .catch((err) => console.log(`Произошла ошибка: ${err}`))
         .finally(() => {   
-            closeModal(modalConfirmDeletion);
             renderLoading(false, formConfirmDeletion, textDeletion, textDefaultDelete);
         });
 }
 
 function openImagePopup (src, alt) {
     imgContainerModalBigImage.src = src;
+    imgContainerModalBigImage.alt = atl;
     imgCaptionModalBigImage.textContent = alt;
     openModal(modalBigImage);
 }

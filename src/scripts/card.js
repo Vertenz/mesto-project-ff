@@ -28,8 +28,9 @@ function deleteCard (event) {
     event.target.closest('.places__item').remove();
 }
 
-function toggleLikeCard (event) {
+function toggleLikeCard (event, cardLikesNumber, res) {
     event.classList.toggle('card__like-button_is-active');
+    cardLikesNumber.textContent = res.likes.length;
 }
 
 export { createCard, deleteCard, toggleLikeCard }
